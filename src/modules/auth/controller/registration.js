@@ -2,14 +2,16 @@ import userModel from "../../../../DB/model/User.model.js";
 import bcrypt from "bcryptjs"
 import jwt from 'jsonwebtoken'
 import { sendEmail } from "../../../services/email.js";
+import { asyncHandler } from "../../../services/errorHandling.js";
 
 //signup 
-export const signup = async(req,res)=>{
-  try {
+export const signup =asyncHandler(async(req,res,next)=>{
     const {userName , email , password} = req.body;
-  const user = await userModel.findOne({email}).select('email')
+  //const user = await userModel.findOne({email}).select('email')
+  const user = await findOne({ model: userModel,filter: { email },select: "email",
+  });
   if (user) {
-    res.status(409).json({message:'email exist'})
+    next(new Error ('email exist' , {cause:409}))
   } else {
     const hash = bcrypt.hashSync(password , parseInt(process.env.SALTROUND))
     const newUser = await userModel({email , userName ,password:hash})
@@ -28,56 +30,47 @@ export const signup = async(req,res)=>{
       const savedUser =await newUser.save()
       res.status(201).json({message:'Done' , savedUserId: savedUser._id})
     } else {
-      res.status(400).json({message:'rejected email'})
+      next(new Error ('rejected email' , {cause:400}))
     }
   }
-  } catch (error) {
-    res.status(500).json({message:'catch error' , error})
-    console.log(error);
-    
-    
-  }
-  
-}
+  }) 
 
 //confirmEmail 
-export const confirmEmail = async(req,res)=>{
-  try {
+export const confirmEmail =asyncHandler(async(req,res)=>{
+
     const {token} = req.params;
     const decoded = jwt.verify(token , process.env.tokenSignature)
   if (!decoded?.id) {
-    res.status(400).json({message:'in-valid decoded token'})
+    next(new Error('in-valid decoded token' , {cause:400}))
   } else {
-    const user = await userModel.findOneAndUpdate({_id: decoded.id , confirmEmail:false},{confirmEmail:true})
+   // const user = await userModel.findOneAndUpdate({_id: decoded.id , confirmEmail:false},{confirmEmail:true})
+    const user = await findOneAndUpdate({model: userModel, filter: { _id: decoded.id, confirmEmail: false },
+      data: { confirmEmail: true },
+      options: { new: true },
+    });
     res.status(200).redirect(process.env.LINK)
             
   }
-  } catch (error) {
-    res.status(500).json({message:'catch error' , error})
-    console.log(error);
-    
-    
-  }
-  
-}
+  })  
 
 //signin 
-export const signin = async(req,res)=>{
-try {
+export const signin = asyncHandler(async(req,res)=>{
   const {email , password} = req.body;
-  const user = await userModel.findOne({email})
+  //const user = await userModel.findOne({email})
+  const user = await findOne({ model: userModel, filter: { email } });
   if (!user) {
-    res.status(400).json({message:'email not exist'})
+    next(new Error('email not exist' , {cause:400}))
   } else {
     if (!user.confirmEmail) {
-      res.status(400).json({message:'email not confirm yet'})
+      next(new Error('email not confirm yet' , {cause:400}))
     } else {
     if (user.blocked) {
-        res.status(400).json({message:'email blocked'})
+          next(new Error('email blocked' , {cause:400}))
+
       } else {
         const match = bcrypt.compareSync(password ,user.password)
       if (!match) {
-          res.status(400).json({message:'password not match'})
+            next(new Error('password not match' , {cause:400}))
         } else {
             const token = jwt.sign({id: user._id} , process.env.tokenSignature , {expiresIn:60*60*24})
             res.status(200).json({message:'Done' , token})
@@ -85,9 +78,6 @@ try {
       }
     }
   }
-} catch (error) {
-    res.status(500).json({message:'catch error' , error})
-    console.log(error);
-}
+
   
-}
+}) 
