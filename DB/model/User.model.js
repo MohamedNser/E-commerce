@@ -1,4 +1,5 @@
 import { Schema, model, Types } from "mongoose"
+import { roles } from "../../src/middleware/auth.js";
 
 const userSchema = new Schema(
   {
@@ -23,7 +24,7 @@ const userSchema = new Schema(
     role: {
       type: String,
       default: "User",
-      enum: ["User", "Admin"],
+      enum: [roles.Admin, roles.HR, roles.User],
     },
     active: {
       type: Boolean,
@@ -39,11 +40,16 @@ const userSchema = new Schema(
     },
     image: String,
     DOB: String,
+    code:{
+      type:String,
+      default:null
+    },
     wishlist: [
       {
         type: Types.ObjectId,
         ref: "product",
       },
+  
     ],
   },
   {

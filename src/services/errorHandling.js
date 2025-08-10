@@ -8,9 +8,9 @@ export const asyncHandler = (fn)=>{
     export const globalErrorHandler =(err,req,res,next)=>{
     if (err) {
         if (process.env.MOOD=== "DEV") {
-        res.status(err['cause'] || 500 ).json({message: err.message , stack: err.stack})
+        res.status(err['cause'] || 500 ).json({message:err.message , stack: err.stack})
         } else {
-        res.status(err['cause'] || 500 ).json({message: err.message})
+        res.status(err['cause'] || 500 ).json({message:err.message})
         }
     }
 }
