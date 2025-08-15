@@ -6,8 +6,9 @@ import { validation } from "../../middleware/validation.js";
 import { auth } from "../../middleware/auth.js";
 import { endPoint } from "../user/user.endPoint.js";
 
-//signup & confirmEmail
+//signup 
 router.post('/signup' ,validation(validators.signup) ,registerController.signup)
+//confirmEmail
 router.get('/confirmEmail/:token' ,validation(validators.token), registerController.confirmEmail)
 //signin
 router.post('/signin' ,validation(validators.login), registerController.signin)

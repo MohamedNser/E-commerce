@@ -24,8 +24,8 @@ if (process.env.MOOD) {
 app.use(`${baseUrl}/auth`, indexRouter.authRouter);
 app.use(`${baseUrl}/user`, indexRouter.userRouter);
 app.use(`${baseUrl}/product`, indexRouter.productRouter);
-app.use(`${baseUrl}/subCategory`, indexRouter.subcategoryRouter);
-app.use(`${baseUrl}/category`, indexRouter.cartRouter);
+//app.use(`${baseUrl}/subCategory`, indexRouter.subcategoryRouter);
+app.use(`${baseUrl}/category`, indexRouter.categoryRouter);
 app.use(`${baseUrl}/reviews`, indexRouter.reviewsRouter);
 app.use(`${baseUrl}/coupon`, indexRouter.couponRouter);
 app.use(`${baseUrl}/cart`, indexRouter.cartRouter);
