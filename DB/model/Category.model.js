@@ -1,0 +1,31 @@
+import { Schema, model, Types } from "mongoose";
+
+const categorySchema = new Schema(
+{
+    name: {
+        type: String,
+        required: [true, " is required"],
+        unique:true,
+        min: [2, "minimum length 2 char"],
+        max: [20, "max length 2 char"],
+    },
+    slug:String,
+    image: String,
+    publicImage:String,
+    ceratedBy:{
+        type:Types.ObjectId,
+        ref:"User",
+        required:true
+    },
+    updatedBy:{
+        type:Types.ObjectId,
+        ref:"User"
+    },
+},
+{
+    timestamps: true,
+}
+);
+
+const categoryModel = model("Category", categorySchema);
+export default categoryModel;
