@@ -12,7 +12,7 @@ export const cerateCategory =asyncHandler(
             next (new Error("image must be required" , {cause:400}))
         } else {
             const {name} = req.body;
-            const {secure_url , public_id} = await cloudinary.uploader.upload(req.file.path, {folder:"E-commerceProject"}) 
+            const {secure_url , public_id} = await cloudinary.uploader.upload(req.file.path, {folder:"E-commerceProject/category"}) 
             const category = await create(
                 {model:categoryModel , 
                 data:{name,
@@ -65,6 +65,8 @@ export const getAllCategory = asyncHandler(
                     },{
                         path:"updatedBy",
                         select:"userName email image"
+                    },{
+                        path:'subCategory'
                     }],
                     skip,
                     limit
