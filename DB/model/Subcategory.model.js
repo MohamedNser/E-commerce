@@ -12,10 +12,10 @@ const subcategorySchema = new Schema(
     slug:String,
     image: String,
     publicImage:String,
-    ceratedBy:{
-        type:Types.ObjectId,
-        ref:"User",
-        required:true
+    createdBy: {  
+        type: Types.ObjectId,
+        ref: "User",
+        required: true
     },
     updatedBy:{
         type:Types.ObjectId,
@@ -31,5 +31,6 @@ const subcategorySchema = new Schema(
 }
 );
 
-const subcategoryModel = model("subCategory", subcategorySchema);
+
+const subcategoryModel = model("Subcategory", subcategorySchema); 
 export default subcategoryModel;

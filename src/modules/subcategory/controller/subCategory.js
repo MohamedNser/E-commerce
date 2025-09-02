@@ -117,3 +117,26 @@ export const getSubCategoryById = asyncHandler(
         
     }
 ) 
+
+//DeleteSubCategory
+export const DeleteSubCategory = asyncHandler(
+    async (req, res, next) => {
+        const { id } = req.params;
+        const SubCategory = await findById({
+            model: subcategoryModel,
+            filter: { _id: id, isDeleted: false }
+        });
+
+        if (!SubCategory) {
+            return next(new Error("category id is not found", { cause: 404 }));
+        }
+
+        const deleteSubCat = await findByIdAndUpdate({
+            model: subcategoryModel,
+            filter: { _id: id },
+            data: { isDeleted: true },
+            options: { new: true }
+    });
+    res.status(200).json({ message: "Category soft deleted", deleteSubCat });
+}
+);

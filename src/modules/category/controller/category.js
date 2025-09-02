@@ -1,4 +1,4 @@
-import { create, find, findByIdAndUpdate } from "../../../../DB/DBMethods.js";
+import { create, find, findById, findByIdAndDelete, findByIdAndUpdate } from "../../../../DB/DBMethods.js";
 import { asyncHandler } from "../../../services/errorHandling.js";
 import cloudinary from "../../../services/cloudinary.js"
 import slugify from'slugify'
@@ -53,6 +53,32 @@ export const UpdateCategory = asyncHandler(
         
     }
 ) 
+//DeleteCategory
+export const DeleteCategory = asyncHandler(
+    async (req, res, next) => {
+        const { id } = req.params;
+        const Category = await findById({
+            model: categoryModel,
+            filter: { _id: id, isDeleted: false }
+        });
+
+        if (!Category) {
+            return next(new Error("category id is not found", { cause: 404 }));
+        }
+
+
+        const deleteCat = await findByIdAndUpdate({
+            model: categoryModel,
+            filter: { _id: id },
+            data: { isDeleted: true },
+            options: { new: true }
+    });
+    res.status(200).json({ message: "Category soft deleted", deleteCat });
+}
+);
+
+
+
 //getAllCategory
 export const getAllCategory = asyncHandler(
     async(req,res,next)=>{
