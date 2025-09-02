@@ -1,65 +1,69 @@
 # 🛒 E-Commerce API
 
-**E-Commerce API** is a Backend project built with **Node.js** and **Express.js**, providing core APIs for managing:  
-- 👤 Users (Authentication & Authorization)  
-- 📂 Categories & SubCategories  
-- 🏷️ Brands  
-- 🛍️ Products *(coming soon)*  
+**E-Commerce API** is a Backend project built with **Node.js** and **Express.js**, designed to provide scalable and modular APIs for e-commerce applications.  
 
-It supports **image upload**, **role-based authorization**, and a clean, scalable database structure.
+It currently supports:  
+- 📂 **Categories & SubCategories** (Full CRUD)  
+- 🏷️ **Brands** (Full CRUD)  
+- 🛍️ **Products** (CRUD – *search & filters coming soon*)  
+- 🔐 **Authentication & Users** *(planned)*  
 
 ---
 
 ## 🚀 Tech Stack
 - **Backend:** Node.js, Express.js  
-- **Database:** MongoDB (Mongoose)  
-- **Authentication:** JWT (Access & Refresh Tokens), Email Confirmation  
+- **Database:** MongoDB + Mongoose  
+- **Authentication:** JWT (Access/Refresh tokens), Email Confirmation *(planned)*  
 - **File Upload:** Multer + Cloudinary  
-- **Utilities:** Morgan, Slugify, AsyncHandler, DataMethod (DB abstraction)  
 - **Validation:** Joi  
-- **Environment Management:** dotenv  
+- **Logging & Utils:** Morgan, AsyncHandler, Slugify  
+- **DB Helpers:** DataMethod (find, findOne, update, delete)  
+- **Env Management:** dotenv  
 
 ---
 
-## ✨ Features
+## ✨ Features (Current Progress)
 
-### 🔐 Authentication & Authorization
-- Sign Up / Sign In / Confirm Email  
-- Update Password  
-- Forget Password + Send Code  
-- Refresh Token  
-- Role-based Authorization  
+### 📂 Categories
+- Create, Update, Delete (soft delete), Get All, Get By ID  
+- Slugify names  
+- Upload images to Cloudinary  
 
-### 📂 Category Management
-- Create / Update / Get All / Get By ID  
-- Slugify for category names  
-- Upload category images to Cloudinary  
+### 🗂️ SubCategories
+- Create, Update, Delete (soft delete), Get All, Get By Category ID  
+- Virtual populate relation with Category  
 
-### 🗂️ SubCategory Management
-- Create / Update / Get All / Get By Category ID  
-- Virtual Populate for Category ↔ SubCategory relation  
+### 🏷️ Brands
+- Create, Update, Delete (soft delete), Get All, Get By ID  
+- Slugify names  
+- Upload images to Cloudinary  
 
-### 🏷️ Brand Management
-- Create Brand  
-- Update Brand  
-- Get Brand  
+### 🛍️ Products
+- Create, Update, Delete, Get All, Get By ID  
+- Linked with Category, SubCategory, and Brand  
+- Supports images upload  
+- *Search & advanced filters (coming soon)*  
 
 ---
 
 ## ⚙️ Utilities & Middlewares
 - **Morgan** → Request logging  
-- **AsyncHandler** → Clean async/await error handling  
-- **DataMethod** → Centralized DB helper (find, findOne, update)  
-- **dotenv** → Environment variables management  
+- **AsyncHandler** → Cleaner async error handling  
+- **DataMethod** → Centralized DB queries  
+- **Slugify** → Auto-generate slugs from names  
+- **Validation** → Using Joi schemas  
+- **dotenv** → Environment variables  
 
 ---
 
-## 📬 API Documentation
-- All APIs tested using **Postman**  
-- Postman collection is available with the project  
+## 📌 Installation & Setup
 
----
+```bash
+# 1️⃣ Clone repo
+git clone https://github.com/MohamedNser/E-commerce.git
 
-## 📌 Getting Started
+# 2️⃣ Install dependencies
+npm install
 
-### 1️⃣ Clone the repo
+# 3️⃣ Configure environment
+cp .env.example .en
