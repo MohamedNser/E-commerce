@@ -28,5 +28,5 @@ const BrandSchema = new Schema(
 );
 
 
-const BrandModel = model("brand", BrandSchema);
+const BrandModel = model("Brand", BrandSchema);
 export default BrandModel;

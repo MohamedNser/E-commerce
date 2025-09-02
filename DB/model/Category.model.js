@@ -17,6 +17,10 @@ const categorySchema = new Schema(
         ref:"User",
         required:true
     },
+    isDeleted: {
+    type: Boolean,
+    default: false
+},
     updatedBy:{
         type:Types.ObjectId,
         ref:"User"
