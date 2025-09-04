@@ -1,10 +1,12 @@
 import { Router } from "express";
-const router = Router()
+import { auth } from "../../middleware/auth.js";
+import endPoint from "./wishlist.endpoint.js";
+import * as wishlistRouter from "./controller/wishlist.js"
+const router = Router({mergeParams:true})
 
 
-router.post('/',(req,res)=>{
-    res.send({message:"brand"})
-} )
+router.patch('/add',auth(endPoint.add) , wishlistRouter.addWishlist )
+router.patch('/remove',auth(endPoint.remove) , wishlistRouter.RemoveWishlist )
 
 
 export default router

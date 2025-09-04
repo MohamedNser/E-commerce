@@ -33,7 +33,7 @@ app.use(`${baseUrl}/order`, indexRouter.orderRouter);
 app.use(`${baseUrl}/brand`, indexRouter.branRouter);
 //in-valid Page
 app.use("*", (req, res, next) => {
-    res.send("In-valid Routing Plz check url  or  method");
+    res.send("In-valid Routing Plz check url  or method");
 });
 //errorHandler
 app.use(globalErrorHandler)
