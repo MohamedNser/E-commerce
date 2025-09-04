@@ -143,7 +143,15 @@ export const UpdateProduct= asyncHandler(
 export const Products = asyncHandler(
     async(req, res, next) => {
         const {skip, limit} = paginate({page: req.query.page, size: req.query.size})
-        
+        const { search } = req.query;
+        const filter = {};
+
+            if (search) {
+                filter.$or = [
+                    { name: { $regex: search, $options: "i" } },        
+                    { description: { $regex: search, $options: "i" } },
+                    ];
+    }
         const ProductLis = await find({
             model: productModel,
             filter: {},
