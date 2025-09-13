@@ -6,6 +6,8 @@ It currently supports:
 - 📂 **Categories & SubCategories** (Full CRUD)  
 - 🏷️ **Brands** (Full CRUD)  
 - 🛍️ **Products** (CRUD – *search & filters coming soon*)  
+- 🛒 **Cart** (Create functionality implemented)  
+- 🧾 **Order** (Create functionality implemented)  
 - 🔐 **Authentication & Users** *(planned)*  
 
 ---
@@ -44,6 +46,15 @@ It currently supports:
 - Supports images upload  
 - *Search & advanced filters (coming soon)*  
 
+### 🛒 Cart
+- **Create cart** functionality implemented  
+- Add products to cart, update quantity if product exists  
+
+### 🧾 Order
+- **Create order** functionality implemented  
+- Validate product stock, calculate total price  
+- Apply coupon discount if available  
+
 ---
 
 ## ⚙️ Utilities & Middlewares
@@ -66,4 +77,7 @@ git clone https://github.com/MohamedNser/E-commerce.git
 npm install
 
 # 3️⃣ Configure environment
-cp .env.example .en
+cp .env.example .env
+
+# 4️⃣ Start development server
+npm run dev
