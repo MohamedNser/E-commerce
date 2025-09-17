@@ -6,9 +6,11 @@ import  endPoint from './product.endPoint.js'
 import { validation } from "../../middleware/validation.js";
 import * as validators from "./product.validation.js"
 import  wishlistRouter from "../wishlist/wishlist.router.js"
+import  ReviewRouter from "../reviews/reviews.router.js"
 const router = Router()
 
 router.use("/:productId/wishlist" , wishlistRouter)
+router.use("/:productId/review" , ReviewRouter)
 //createProduct
 router.post('/',auth(endPoint.add), myMulter(fileValidation.image).array('images' , 5)
 ,validation(validators.createProductValidation),productRouter.createProduct)
