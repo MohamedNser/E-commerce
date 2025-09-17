@@ -176,12 +176,26 @@ export const Products = asyncHandler(
                     path: "brandId", 
                     select: "name slug image",
                 },
+                
+                {
+                    path: 'review'
+                }
             ],
             skip,
             limit
         })
+        const finalProducts = [];
+        for (let i = 0; i < ProductLis.length; i++) {
+            let calcRating = 0;
+            for (let j = 0; j < ProductLis[i].review.length; j++) {
+                calcRating += ProductLis[i].review[j].rating;
+            }
+            const convObj = ProductLis[i].toObject();
+            convObj.averageRating = calcRating / ProductLis[i].review.length;
+            finalProducts.push(convObj);
+        }
 
-        res.status(200).json({message: "Done", ProductLis})
+        res.status(200).json({message: "Done", ProductLis:finalProducts})
     }
 )
 //getProductById
@@ -240,6 +254,7 @@ export const DeleteProduct = asyncHandler(
                 next(new Error('product is not defined'))
             
         }
+        
         
 
         res.status(200).json({message: "Done", deletePro})

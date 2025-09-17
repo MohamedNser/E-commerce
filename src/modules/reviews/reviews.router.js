@@ -1,10 +1,11 @@
 import { Router } from "express";
-const router = Router()
+import { auth } from "../../middleware/auth.js";
+import endPoint from "./reviews.endPoint.js";
+import * as ReviewRouter from './controller/review.js'
+const router = Router({mergeParams:true})
 
 
-router.post('/',(req,res)=>{
-    res.send({message:"brand"})
-} )
+router.post('/',auth(endPoint.create), ReviewRouter.createReviews )
 
 
 export default router
