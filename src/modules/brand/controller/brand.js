@@ -9,7 +9,7 @@ import BrandModel from "../../../../DB/model/Brand.model.js";
 export const createBrand =asyncHandler(
     async(req,res,next)=>{
         if (!req.file) {
-            next (new Error("image must be required" , {cause:400}))
+        return next (new Error("image must be required" , {cause:400}))
         } else 
             {
                 const {name} = req.body;
@@ -79,7 +79,7 @@ export const getBrand = asyncHandler(
 
                 })
 
-            res.status(200).json({message: "Done" , category})
+            return res.status(200).json({message: "Done" , category})
         
     }
 ) 

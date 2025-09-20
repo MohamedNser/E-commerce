@@ -12,7 +12,7 @@ import productModel from "../../../../DB/model/Product.model.js";
 export const createProduct =asyncHandler(
     async(req,res,next)=>{
         if (!req.files?.length) {
-            next (new Error("image must be required" , {cause:400}))
+            return  next (new Error("image must be required" , {cause:400}))
         } else 
             {
                 const {name , amount , price , discount ,subcategoryId ,categoryId ,brandId} = req.body;
@@ -28,7 +28,7 @@ export const createProduct =asyncHandler(
                     filter:{_id: subcategoryId ,categoryId }
                 })
                 if (!category) {
-                    next(new Error("invalid category or subCategory id" , {cause:404}))
+                return next(new Error("invalid category or subCategory id" , {cause:404}))
                 }
 
                 
@@ -37,7 +37,7 @@ export const createProduct =asyncHandler(
                     filter:{_id: brandId }
                 })
                 if (!brand) {
-                    next(new Error("invalid brand id"  , {cause:404}))
+                return next(new Error("invalid brand id"  , {cause:404}))
                 }
                 const images= []
                 const imagePublicIds = []
@@ -54,7 +54,7 @@ export const createProduct =asyncHandler(
                     model:productModel,
                     data:req.body
                 })
-                res.status(201).json({message:'Done', product})
+                return res.status(201).json({message:'Done', product})
 
             }
             
@@ -195,7 +195,7 @@ export const Products = asyncHandler(
             finalProducts.push(convObj);
         }
 
-        res.status(200).json({message: "Done", ProductLis:finalProducts})
+        return res.status(200).json({message: "Done", ProductLis:finalProducts})
     }
 )
 //getProductById
@@ -244,19 +244,19 @@ export const DeleteProduct = asyncHandler(
             filter: {_id:id},
         })
         if (!Product) {
-            next(new Error('product id is not found' ,{cause:404}))
+            return  next(new Error('product id is not found' ,{cause:404}))
         } 
             const deletePro = await findByIdAndDelete({
                 model:productModel,
                 filter:{_id:id}
             })
             if (!deletePro) {
-                next(new Error('product is not defined'))
+            return next(new Error('product is not defined'))
             
         }
         
         
 
-        res.status(200).json({message: "Done", deletePro})
+        return res.status(200).json({message: "Done", deletePro})
     }
 )

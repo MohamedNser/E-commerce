@@ -1,6 +1,5 @@
 import { Schema, model, Types } from "mongoose";
 
-
 const orderSchema = new Schema({
     userId: {
         type: Types.ObjectId,
@@ -25,10 +24,10 @@ const orderSchema = new Schema({
     }],
     address: { type: String, required: [true, 'address is required'] },
     phone: { type: String, required: [true, 'phone is required'] },
-    paymentMethod: {
+    paymentType: { // استخدم paymentType كما في الـ request
         type: String,
         default: "Cash",
-        enum: ['Cash', 'Visa']
+        enum: ['Cash', 'card']
     },
     couponId: {
         type: Types.ObjectId,
@@ -48,9 +47,8 @@ const orderSchema = new Schema({
         enum: ['placed', 'received', 'rejected', 'onWay']
     }
 }, {
-
     timestamps: true,
-})
+});
 
 const orderModel = model('Order', orderSchema)
 export default orderModel

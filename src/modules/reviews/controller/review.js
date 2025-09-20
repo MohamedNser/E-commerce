@@ -1,4 +1,4 @@
-import { create, findOne } from "../../../../DB/DBMethods.js";
+import { create, findOne,find } from "../../../../DB/DBMethods.js";
 import orderModel from "../../../../DB/model/order.model.js";
 import reviewModel from "../../../../DB/model/review.model.js";
 import { asyncHandler } from "../../../services/errorHandling.js";
@@ -44,3 +44,16 @@ export const createReviews = asyncHandler(async(req,res,next)=>{
     return res.status(200).json({message: "Done", review})
 
 }) 
+
+//getProductReviews
+export const getProductReviews = asyncHandler(async (req, res, next) => {
+    const { productId } = req.params;
+
+    const reviews = await find({
+        model: reviewModel,
+        filter: { productId },
+        populate: { path: "userId", select: "name avatar" }
+    });
+
+    return res.status(200).json({ message: "Done", reviews });
+});

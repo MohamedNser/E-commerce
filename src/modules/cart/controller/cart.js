@@ -56,3 +56,96 @@ export const addToCart = asyncHandler(async (req, res, next) => {
 });
     return res.status(201).json({ message: "Done", cart: updatedCart });
 });
+
+//getCart
+export const getCart = asyncHandler(async (req, res, next) => {
+    const { _id: userId } = req.user;
+
+    const cart = await findOne({
+        model: cartModel,
+        filter: { userId },
+        populate: [
+            { path: "products.productId", select: "name price" }
+        ]
+    });
+
+    if (!cart) {
+        return res.status(404).json({ message: "Cart is empty" });
+    }
+
+    return res.status(200).json({ message: "Done", cart });
+});
+
+//removeFromCart
+export const removeFromCart = asyncHandler(async (req, res, next) => {
+    const { productId } = req.body;
+    const { _id: userId } = req.user;
+
+    const cart = await findOne({
+        model: cartModel,
+        filter: { userId }
+    });
+
+    if (!cart) {
+        return res.status(404).json({ message: "Cart not found" });
+    }
+
+    const updatedProducts = cart.products.filter(
+    (product) => product.productId.toString() !== productId
+);
+
+    const updatedCart = await findOneAndUpdate({
+        model: cartModel,
+        filter: { userId },
+        data: { products: updatedProducts },
+        options: { new: true }
+    });
+
+    return res.status(200).json({ message: "Product removed", cart: updatedCart });
+});
+
+//clearCartToUser
+export const clearCart = asyncHandler(async (req, res, next) => {
+    const { _id: userId } = req.user;
+
+    const cart = await findOne({
+        model: cartModel,
+        filter: { userId }
+    });
+
+    if (!cart) {
+        return res.status(404).json({ message: "Cart not found" });
+    }
+
+    cart.products = [];
+    await cart.save();
+
+    return res.status(200).json({ message: "Cart cleared", cart });
+});
+
+//updateQuantity
+export const updateQuantity = asyncHandler(async (req, res, next) => {
+    const { productId, quantity } = req.body;
+    const { _id: userId } = req.user;
+
+    const cart = await findOne({
+        model: cartModel,
+        filter: { userId }
+    });
+
+    if (!cart) {
+        return res.status(404).json({ message: "Cart not found" });
+    }
+    const product = cart.products.find(
+    (p) => p.productId.toString() === productId
+);
+
+    if (!product) {
+        return res.status(404).json({ message: "Product not in cart" });
+    }
+
+    product.quantity = quantity;
+    await cart.save();
+
+    return res.status(200).json({ message: "Quantity updated", cart });
+});

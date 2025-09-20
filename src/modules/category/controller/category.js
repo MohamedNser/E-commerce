@@ -9,7 +9,7 @@ import { paginate } from "../../../services/pagination.js";
 export const cerateCategory =asyncHandler(
     async(req,res,next)=>{
         if (!req.file) {
-            next (new Error("image must be required" , {cause:400}))
+            return  next (new Error("image must be required" , {cause:400}))
         } else {
             const {name} = req.body;
             const {secure_url , public_id} = await cloudinary.uploader.upload(req.file.path, {folder:"E-commerceProject/category"}) 
@@ -73,7 +73,7 @@ export const DeleteCategory = asyncHandler(
             data: { isDeleted: true },
             options: { new: true }
     });
-    res.status(200).json({ message: "Category soft deleted", deleteCat });
+    return res.status(200).json({ message: "Category soft deleted", deleteCat });
 }
 );
 
@@ -99,7 +99,7 @@ export const getAllCategory = asyncHandler(
 
                 })
 
-            res.status(200).json({message: "Done" , category})
+            return res.status(200).json({message: "Done" , category})
         
     }
 ) 
@@ -118,7 +118,7 @@ export const getCategoryById = asyncHandler(
                         select:"userName email image"
                     }],
                 })
-            res.status(200).json({message: "Done" , category})
+            return res.status(200).json({message: "Done" , category})
         
     }
 ) 

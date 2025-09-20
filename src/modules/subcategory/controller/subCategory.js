@@ -10,7 +10,7 @@ import subcategoryModel from "../../../../DB/model/Subcategory.model.js";
 export const cerateSubCategory =asyncHandler(
     async(req,res,next)=>{
         if (!req.file) {
-            next (new Error("image must be required" , {cause:400}))
+            return next (new Error("image must be required" , {cause:400}))
         } else {
             const {categoryId}=req.params;
             const category = await findById({
@@ -92,7 +92,7 @@ export const getAllSubCategory = asyncHandler(
 
                 })
 
-            res.status(200).json({message: "Done" , category})
+            return res.status(200).json({message: "Done" , category})
         
     }
 ) 
@@ -113,7 +113,7 @@ export const getSubCategoryById = asyncHandler(
                         path:"categoryId"
                     }],
                 })
-            res.status(200).json({message: "Done" , category})
+            return res.status(200).json({message: "Done" , category})
         
     }
 ) 
