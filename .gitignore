@@ -14,3 +14,4 @@ logs/
 
 # Build artifacts
 dist/
+config/.env
