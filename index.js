@@ -1,13 +1,15 @@
+
 import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
-//set directory dirname
+// set directory dirname
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, "./config/.env") });
 import express from "express";
 import { appRouter } from "./src/modules/index.router.js";
-const port = process.env.PORT;
-const app = express();
+import serverless from "serverless-http";
 
-appRouter(app)
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+const app = express();
+appRouter(app);
+
+export const handler = serverless(app);
